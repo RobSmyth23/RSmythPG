@@ -4,23 +4,64 @@ using UnityEngine;
 
 public class charMovementScript : MonoBehaviour
 {
-    float speed = 3f;
-    float turningSpeed = 90f;
-    // Start is called before the first frame update
+    public float jumpForce = 4.0f;
+    private Rigidbody rb;
+    float speed = 3.0f;
+    float turningSpeed = 90.0f;
+    float zoomSpeed = 0.2f;
+    public float minZoom = 5.0f;
+    public float maxZoom = 20.0f;
+    private float currentZoom = -5.0f;
+    public Transform character; 
+    public Vector3 offset; 
+    private bool isLookingBehind = false;
+    
     void Start()
     {
-        transform.position = new Vector3(1, 2, 3);
+        transform.position = new Vector3(1, 1, 1);
+        rb = GetComponent<Rigidbody>();
+        Camera.main.transform.localPosition = new Vector3(0, 1.57f, currentZoom);
     }
 
-    // Update is called once per frame
+    
     void Update()
     {
+        if (shouldZoomIn()) zoomIn();
+        if (shouldZoomOut()) zoomOut();
         if (shouldMoveForward()) moveForward();
         if (shouldMoveBack()) moveBack();
         if (shouldTurnLeft()) turnLeft();
         if (shouldTurnRight()) turnRight();
+        if (shouldJump()) jump();
+        if (Input.GetKeyDown(KeyCode.C))
+        {
+            isLookingBehind = !isLookingBehind;
+            if (isLookingBehind)
+            {
+                currentZoom = Mathf.Abs(currentZoom);
+                // Look behind the character
+                Camera.main.transform.localPosition = new Vector3(0, 1.57f, currentZoom);
+                Camera.main.transform.localRotation = Quaternion.Euler(0, 180, 0);
+            }
+            else
+            {
+                // Follow the character normally
+                currentZoom = -Mathf.Abs(currentZoom);
+                Camera.main.transform.localPosition = new Vector3(0, 1.57f, currentZoom);
+                Camera.main.transform.localRotation = Quaternion.Euler(0, 0, 0);
+            }
+        }
+       
 
 
+    }
+    private void jump()
+    {
+        rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
+    }
+    private bool shouldJump()
+    {
+        return (Mathf.Abs(rb.velocity.y) < 0.001f) && Input.GetKeyDown(KeyCode.Space);
     }
 
     private void turnLeft()
@@ -55,9 +96,6 @@ public class charMovementScript : MonoBehaviour
 
     private bool shouldMoveForward()
     {
-        //if (Input.GetKey(KeyCode.W)) return true;
-        //else return false;
-
         return Input.GetKey(KeyCode.W);
     }
 
@@ -65,5 +103,34 @@ public class charMovementScript : MonoBehaviour
     {
 
         return Input.GetKey(KeyCode.S);
+    }
+    private bool shouldZoomIn()
+    {
+        return Input.GetAxis("Mouse ScrollWheel") > 0f;
+    }
+
+    private bool shouldZoomOut()
+    {
+        return Input.GetAxis("Mouse ScrollWheel") < 0f;
+    }
+
+    private void zoomIn()
+    {
+        float size = Mathf.Abs(currentZoom);
+        size -= zoomSpeed;
+        size = Mathf.Clamp(size, minZoom, maxZoom);
+        currentZoom = Mathf.Sign(currentZoom) * size; 
+      
+        Camera.main.transform.localPosition = new Vector3(0, 1.57f, currentZoom);
+
+    }
+
+    private void zoomOut()
+    {
+        float size = Mathf.Abs(currentZoom);
+        size += zoomSpeed;
+        size = Mathf.Clamp(size, minZoom, maxZoom);
+        currentZoom = Mathf.Sign(currentZoom) * size;
+        Camera.main.transform.localPosition = new Vector3(0, 1.57f, currentZoom);
     }
 }
