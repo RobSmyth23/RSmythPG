@@ -8,7 +8,7 @@ public class charMovementScript : MonoBehaviour
     private Rigidbody rb;
     float speed = 3.0f;
     float turningSpeed = 90.0f;
-    float moveSpeed = 9.0f;
+    float moveSpeed = 3.0f;
     float zoomSpeed = 0.2f;
     public float minZoom = 5.0f;
     public float maxZoom = 20.0f;
@@ -16,7 +16,8 @@ public class charMovementScript : MonoBehaviour
     public Transform character; 
     public Vector3 offset; 
     private bool isLookingBehind = false;
-    
+    public Vector3 lookBehindOffset;
+
     void Start()
     {
         transform.position = new Vector3(1, 1, 1);
@@ -112,7 +113,7 @@ public class charMovementScript : MonoBehaviour
 
     private void moveBack()
     {
-        transform.position -= transform.forward * Time.deltaTime;
+        transform.position -= speed * transform.forward * Time.deltaTime;
     }
 
     private bool shouldMoveForward()
