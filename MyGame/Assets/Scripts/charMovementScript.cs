@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class charMovementScript : MonoBehaviour
 {
@@ -23,6 +24,7 @@ public class charMovementScript : MonoBehaviour
         transform.position = new Vector3(1, 1, 1);
         rb = GetComponent<Rigidbody>();
         Camera.main.transform.localPosition = new Vector3(0, 1.57f, currentZoom);
+
     }
 
     
@@ -55,8 +57,13 @@ public class charMovementScript : MonoBehaviour
                 Camera.main.transform.localRotation = Quaternion.Euler(0, 0, 0);
             }
         }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            LoadOptionsMenu();
+        }
 
-        
+
+
 
 
 
@@ -154,5 +161,11 @@ public class charMovementScript : MonoBehaviour
         size = Mathf.Clamp(size, minZoom, maxZoom);
         currentZoom = Mathf.Sign(currentZoom) * size;
         Camera.main.transform.localPosition = new Vector3(0, 1.57f, currentZoom);
+    }
+
+    void LoadOptionsMenu()
+    {
+        SceneManager.LoadScene("OptionsMenu", LoadSceneMode.Additive);
+        Time.timeScale = 0f;
     }
 }

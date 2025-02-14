@@ -6,16 +6,11 @@ using UnityEngine.UI;
 
 public class MainMenuScript : MonoBehaviour
 {
-    [SerializeField] GameObject MainMenu;
+   // [SerializeField] GameObject MainMenu;
     public Button startButton;
     // Start is called before the first frame update
     void Start()
     {
-        if (startButton == null)
-        {
-            Debug.LogError("Start Button is not assigned.");
-            return;
-        }
         startButton.onClick.AddListener(StartGame);
     }
 
@@ -23,5 +18,9 @@ public class MainMenuScript : MonoBehaviour
     void StartGame()
     {
         SceneManager.LoadScene("Level 1");
+    }
+    public void LoadMainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
     }
 }
