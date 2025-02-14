@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class OptionsMenu : MonoBehaviour
@@ -11,28 +12,24 @@ public class OptionsMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        optionsPanel.SetActive(false);
         brightnessSlider.onValueChanged.AddListener(SetBrightness);
         soundSlider.onValueChanged.AddListener(SetSound);
     }
-    public void OpenOptions()
-    {
-        optionsPanel.SetActive(true);
-    }
-
-    public void CloseOptions()
-    {
-        optionsPanel.SetActive(false);
-    }
+    
 
     void SetBrightness(float value)
     {
         // Adjust the brightness based on the slider value
+        // Need to finalise this to ensure ti works
         RenderSettings.ambientLight = Color.white * value;
     }
 
     void SetSound(float value)
     {
         // Adjust the sound volume based on the slider value
+        // Need to finalise this to ensure ti works
+
         AudioListener.volume = value;
     }
 
@@ -40,5 +37,12 @@ public class OptionsMenu : MonoBehaviour
     void Update()
     {
         
+        
+    }
+
+    void CloseOptionsMenu()
+    {
+        SceneManager.UnloadSceneAsync("OptionsMenu");
+        Time.timeScale = 1f;
     }
 }
