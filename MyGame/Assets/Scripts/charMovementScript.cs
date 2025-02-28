@@ -18,6 +18,8 @@ public class charMovementScript : MonoBehaviour
     public Vector3 offset; 
     private bool isLookingBehind = false;
     public Vector3 lookBehindOffset;
+    bool isOptionsMenuOpen = false;
+    public GameObject optionsMenu;
 
     void Start()
     {
@@ -59,12 +61,10 @@ public class charMovementScript : MonoBehaviour
         }
         if (Input.GetKeyDown(KeyCode.Escape))
         {
-            LoadOptionsMenu();
+                LoadOptionsMenu();
+                isOptionsMenuOpen = true;
+            
         }
-
-
-
-
 
 
     }
@@ -168,4 +168,6 @@ public class charMovementScript : MonoBehaviour
         SceneManager.LoadScene("OptionsMenu", LoadSceneMode.Additive);
         Time.timeScale = 0f;
     }
+
+    
 }
