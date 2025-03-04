@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class charMovementScript : MonoBehaviour
+public class charMovementScript : MonoBehaviour, iHealth
 {
     public float jumpForce = 4.0f;
     private Rigidbody rb;
@@ -11,6 +11,7 @@ public class charMovementScript : MonoBehaviour
     float turningSpeed = 90.0f;
     float moveSpeed = 3.0f;
     float zoomSpeed = 0.2f;
+    int health = 300;
     public float minZoom = 5.0f;
     public float maxZoom = 20.0f;
     private float currentZoom = -5.0f;
@@ -20,6 +21,7 @@ public class charMovementScript : MonoBehaviour
     public Vector3 lookBehindOffset;
     bool isOptionsMenuOpen = false;
     public GameObject optionsMenu;
+    public GameObject projectileCloneTemplate;
 
     void Start()
     {
@@ -64,6 +66,14 @@ public class charMovementScript : MonoBehaviour
                 LoadOptionsMenu();
                 isOptionsMenuOpen = true;
             
+        }
+        if (Input.GetKeyDown(KeyCode.F))
+        {
+            GameObject newGo = Instantiate(projectileCloneTemplate);
+
+            ProjectileScript myProjectile = newGo.GetComponent<ProjectileScript>();
+
+            myProjectile.ImShootingYou(this);
         }
 
 
@@ -169,5 +179,8 @@ public class charMovementScript : MonoBehaviour
         Time.timeScale = 0f;
     }
 
-    
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+    }
 }
