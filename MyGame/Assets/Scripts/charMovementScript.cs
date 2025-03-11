@@ -9,7 +9,7 @@ public class charMovementScript : MonoBehaviour, iHealth
     private Rigidbody rb;
     float speed = 3.0f;
     float turningSpeed = 90.0f;
-    float moveSpeed = 3.0f;
+    float moveSpeed = 4.0f;
     float zoomSpeed = 0.2f;
     int health = 300;
     public float minZoom = 5.0f;
@@ -69,11 +69,11 @@ public class charMovementScript : MonoBehaviour, iHealth
         }
         if (Input.GetKeyDown(KeyCode.F))
         {
-            GameObject newGo = Instantiate(projectileCloneTemplate);
+            GameObject newGo = Instantiate(projectileCloneTemplate, transform.position + Vector3.up + 1f * transform.forward, transform.rotation);
 
-            ProjectileScript myProjectile = newGo.GetComponent<ProjectileScript>();
+           // ProjectileScript myProjectile = newGo.GetComponent<ProjectileScript>();
 
-            myProjectile.ImShootingYou(this);
+            //myProjectile.ImShootingYou(this);
         }
 
 
@@ -182,5 +182,10 @@ public class charMovementScript : MonoBehaviour, iHealth
     public void TakeDamage(int damage)
     {
         health -= damage;
+        if(health <= 20)
+        {
+            //warning message
+            Debug.Log("Health Low!!!! Health Low!!!!");
+        }
     }
 }

@@ -6,21 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class TakeDamage : MonoBehaviour
 {
-    int Health = 400;
+    int Health;
     internal void IHitYou()
     {
         Health -= 20;
-
-        if (Health < 100)
-        {
-            GetComponentInChildren<Renderer>().material.color = Color.magenta;
-        }
-        if (Health < 0)
-        {
-            Destroy(gameObject);
-            SceneManager.LoadScene("Death Screen");
-        }
-        throw new NotImplementedException();
     }
     // Start is called before the first frame update
     void Start()

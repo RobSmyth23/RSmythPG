@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class ProjectileScript : MonoBehaviour
 {
+    float speed = 10f;
     Rigidbody rb;
     internal int check = 5;
 
@@ -11,6 +12,7 @@ public class ProjectileScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        rb.velocity = speed * (Vector3.up + 4 * transform.forward).normalized;
     }
 
     // Update is called once per frame
@@ -29,9 +31,9 @@ public class ProjectileScript : MonoBehaviour
     }
     internal void ImShootingYou(charMovementScript charMovementScript)
     {
-        transform.position = charMovementScript.transform.position + Vector3.up + 3 * charMovementScript.transform.forward;
+    
 
-        rb = GetComponent<Rigidbody>();
-        rb.velocity = 2 * (Vector3.up + 4 * charMovementScript.transform.forward);
+      
+      
     }
 }
