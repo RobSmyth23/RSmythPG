@@ -10,6 +10,7 @@ public class charMovementScript : MonoBehaviour, iHealth
     float speed = 3.0f;
     float turningSpeed = 90.0f;
     float moveSpeed = 4.0f;
+    public float runMultiplier = 2f;
     float zoomSpeed = 0.2f;
     int health = 300;
     public float minZoom = 5.0f;
@@ -22,6 +23,9 @@ public class charMovementScript : MonoBehaviour, iHealth
     bool isOptionsMenuOpen = false;
     public GameObject optionsMenu;
     public GameObject projectileCloneTemplate;
+    private float damageCooldown = 1f; 
+    private float lastDamageTime = 0f;
+
 
     void Start()
     {
@@ -70,12 +74,9 @@ public class charMovementScript : MonoBehaviour, iHealth
         if (Input.GetKeyDown(KeyCode.F))
         {
             GameObject newGo = Instantiate(projectileCloneTemplate, transform.position + Vector3.up + 1f * transform.forward, transform.rotation);
-
-           // ProjectileScript myProjectile = newGo.GetComponent<ProjectileScript>();
-
-            //myProjectile.ImShootingYou(this);
         }
 
+        
 
     }
     private void jump()
@@ -125,7 +126,14 @@ public class charMovementScript : MonoBehaviour, iHealth
 
     private void moveForward()
     {
-        transform.position += speed * transform.forward * Time.deltaTime;
+        float currentSpeed = speed;
+
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            currentSpeed *= runMultiplier;
+        }
+
+        transform.position += currentSpeed * transform.forward * Time.deltaTime;
     }
 
     private void moveBack()
@@ -186,6 +194,22 @@ public class charMovementScript : MonoBehaviour, iHealth
         {
             //warning message
             Debug.Log("Health Low!!!! Health Low!!!!");
+        }
+        if(health <= 0)
+        {
+            SceneManager.LoadScene("DeathScreen", LoadSceneMode.Additive);
+        }
+    }
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Boss"))
+        {
+            if (Time.time >= lastDamageTime + damageCooldown)
+            {
+                TakeDamage(10); // Inflict damage
+                Debug.Log("Taken 10 damage");
+                lastDamageTime = Time.time; // Update the last damage time
+            }
         }
     }
 }
