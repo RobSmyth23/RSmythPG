@@ -12,7 +12,7 @@ public class charMovementScript : MonoBehaviour, iHealth
     float moveSpeed = 4.0f;
     public float runMultiplier = 2f;
     float zoomSpeed = 0.2f;
-    int health = 300;
+    int health = 50;
     public float minZoom = 5.0f;
     public float maxZoom = 20.0f;
     private float currentZoom = -5.0f;
@@ -195,9 +195,10 @@ public class charMovementScript : MonoBehaviour, iHealth
             //warning message
             Debug.Log("Health Low!!!! Health Low!!!!");
         }
-        if(health <= 0)
+        if(health == 0)
         {
             SceneManager.LoadScene("DeathScreen", LoadSceneMode.Additive);
+           //LoadDeathScene();
         }
     }
     public void OnTriggerStay(Collider other)
