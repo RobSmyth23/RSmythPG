@@ -1,19 +1,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.SceneManagement;
 
 public class BossBehaviour : MonoBehaviour, iHealth
 {
+    public GameObject portalStone;
     int health = 800;
     public Transform playerTransform;
     private Animator animator;
     [SerializeField] private float secondsDelay = 7.0f;
     [SerializeField] private float detectionRadius = 10f;
+    public Vector3 originalPosition;
+    private NavMeshAgent agent;
 
     // Start is called before the first frame update
     void Start()
     {
+        agent = GetComponent<NavMeshAgent>();
+        originalPosition = transform.position;
+
         animator = GetComponent<Animator>();
         if (playerTransform == null)
         {
@@ -33,6 +40,22 @@ public class BossBehaviour : MonoBehaviour, iHealth
                 animator.SetTrigger("alert");
             }
         }
+
+        float distanceToPlayer = Vector3.Distance(playerTransform.position, transform.position);
+
+        if (distanceToPlayer <= detectionRadius)
+        {
+            // Face the player
+            Vector3 direction = (playerTransform.position - transform.position).normalized;
+            Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        }
+        else
+        {
+            // Return to original position
+            agent.SetDestination(originalPosition);
+        }
+
     }
     public void TakeDamage(int damage)
     {
@@ -42,9 +65,16 @@ public class BossBehaviour : MonoBehaviour, iHealth
             animator.SetTrigger("die");
 
             StartCoroutine(delayTimer(secondsDelay));
-
+            ActivateSphere();
             //Some celebration effect / on screen text maybe
             Debug.Log("CELEBRATION BOSS DEFEATED");
+        }
+    }
+    void ActivateSphere()
+    {
+        if (portalStone != null)
+        {
+            portalStone.SetActive(true); // Activate the sphere
         }
     }
     public void OnTriggerStay(Collider other)
@@ -55,7 +85,7 @@ public class BossBehaviour : MonoBehaviour, iHealth
             {
                 animator.SetTrigger("attack_01");
             }
-            else if (health >= 200 && health <= 399)
+            else if (health <= 399 && health >= 200)
             {
                 animator.SetTrigger("attack_02");
             }
@@ -73,5 +103,7 @@ public class BossBehaviour : MonoBehaviour, iHealth
         yield return new WaitForSeconds(delay);
         Destroy(gameObject);
     }
+
+
 
 }
