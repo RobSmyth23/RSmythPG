@@ -83,14 +83,17 @@ public class BossBehaviour : MonoBehaviour, iHealth
         {
             if (health >= 400)
             {
+                Debug.Log("Boss Entering attack phase 1");
                 animator.SetTrigger("attack_01");
             }
             else if (health <= 399 && health >= 200)
             {
+                Debug.Log("Boss Entering attack phase 2");
                 animator.SetTrigger("attack_02");
             }
             else if (health > 0 && health < 200)
             {
+                Debug.Log("Boss Entering attack phase 3");
                 animator.SetTrigger("attack_03");
             }
             else
@@ -101,6 +104,7 @@ public class BossBehaviour : MonoBehaviour, iHealth
     IEnumerator delayTimer(float delay)
     {
         yield return new WaitForSeconds(delay);
+        Debug.Log("Boss dead! Starting destroy object timer!");
         Destroy(gameObject);
     }
 

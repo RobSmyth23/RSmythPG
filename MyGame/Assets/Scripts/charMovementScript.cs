@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class charMovementScript : MonoBehaviour, iHealth
@@ -12,7 +13,7 @@ public class charMovementScript : MonoBehaviour, iHealth
     float moveSpeed = 4.0f;
     public float runMultiplier = 2f;
     float zoomSpeed = 0.2f;
-    int health = 50;
+    int health = 550;
     public float minZoom = 5.0f;
     public float maxZoom = 20.0f;
     private float currentZoom = -5.0f;
@@ -25,14 +26,15 @@ public class charMovementScript : MonoBehaviour, iHealth
     public GameObject projectileCloneTemplate;
     private float damageCooldown = 1f; 
     private float lastDamageTime = 0f;
-
+    public Image HealthBar;
+    int maxHealth = 550;
 
     void Start()
     {
         transform.position = new Vector3(1, 1, 1);
         rb = GetComponent<Rigidbody>();
         Camera.main.transform.localPosition = new Vector3(0, 1.57f, currentZoom);
-
+        HealthBar.fillAmount = 1;
     }
 
     
@@ -190,7 +192,9 @@ public class charMovementScript : MonoBehaviour, iHealth
     public void TakeDamage(int damage)
     {
         health -= damage;
-        if(health <= 20)
+        health = Mathf.Clamp(health, 0, maxHealth);
+        HealthBar.fillAmount = (float)health / maxHealth;
+        if (health <= 20)
         {
             //warning message
             Debug.Log("Health Low!!!! Health Low!!!!");
