@@ -12,8 +12,17 @@ public class ProjectileScript : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.velocity = speed * (Vector3.up + 4 * transform.forward).normalized;
+
+        if (rb != null && !rb.isKinematic) // Ensure Rigidbody is not kinematic
+        {
+            rb.velocity = speed * (Vector3.up + 4 * transform.forward).normalized;
+        }
+        else
+        {
+            Debug.LogWarning("Projectile Rigidbody is kinematic! Velocity won't be applied.");
+        }
     }
+
 
     // Update is called once per frame
     void Update()

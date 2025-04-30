@@ -108,7 +108,7 @@ NavMeshSettings:
     agentRadius: 0.5
     agentHeight: 2
     agentSlope: 45
-    agentClimb: 0.4
+    agentClimb: 0.3
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
@@ -121,7 +121,7 @@ NavMeshSettings:
     preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: 916fee935c9a32c4aa14b5aaab1cff8a, type: 2}
 --- !u!1 &17815829
 GameObject:
   m_ObjectHideFlags: 0
@@ -1882,8 +1882,8 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 126
-  m_CollisionDetection: 0
+  m_Constraints: 42
+  m_CollisionDetection: 2
 --- !u!114 &842137840
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1897,9 +1897,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portalStone: {fileID: 8347295309014166051}
-  playerTransform: {fileID: 1225665915}
   secondsDelay: 7
   detectionRadius: 10
+  attackRange: 3
+  attackCooldown: 2
   originalPosition: {x: 0, y: 0, z: 0}
 --- !u!136 &842137841
 CapsuleCollider:
@@ -1920,10 +1921,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.7483768
-  m_Height: 1.844601
+  m_Radius: 0.22319074
+  m_Height: 2.6870594
   m_Direction: 1
-  m_Center: {x: -0.0000000016777945, y: 0.85207117, z: 0.3053277}
+  m_Center: {x: -0.0000000021463245, y: 0.85207117, z: 0.3419001}
 --- !u!135 &842137844
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1943,7 +1944,7 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.5135207
+  m_Radius: 2.83
   m_Center: {x: -0.000000009229117, y: 0.49999884, z: 1.013517}
 --- !u!195 &842137847
 NavMeshAgent:
@@ -1957,7 +1958,7 @@ NavMeshAgent:
   m_Radius: 0.5
   m_Speed: 3.5
   m_Acceleration: 8
-  avoidancePriority: 50
+  avoidancePriority: 10
   m_AngularSpeed: 120
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
@@ -2059,7 +2060,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 456436, guid: b89e0c3c675d2f6468bb44ecbf17fb04, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 40.67
+      value: 40.4
       objectReference: {fileID: 0}
     - target: {fileID: 456436, guid: b89e0c3c675d2f6468bb44ecbf17fb04, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2067,7 +2068,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 456436, guid: b89e0c3c675d2f6468bb44ecbf17fb04, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 19.29
+      value: 19.27
       objectReference: {fileID: 0}
     - target: {fileID: 456436, guid: b89e0c3c675d2f6468bb44ecbf17fb04, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2104,6 +2105,14 @@ PrefabInstance:
     - target: {fileID: 9522842, guid: b89e0c3c675d2f6468bb44ecbf17fb04, type: 3}
       propertyPath: m_AllowConstantClipSamplingOptimization
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 13761724, guid: b89e0c3c675d2f6468bb44ecbf17fb04, type: 3}
+      propertyPath: m_AABB.m_Center.y
+      value: 38.685814
+      objectReference: {fileID: 0}
+    - target: {fileID: 13761724, guid: b89e0c3c675d2f6468bb44ecbf17fb04, type: 3}
+      propertyPath: m_AABB.m_Extent.y
+      value: 53.3257
       objectReference: {fileID: 0}
     - target: {fileID: 13761724, guid: b89e0c3c675d2f6468bb44ecbf17fb04, type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -2520,9 +2529,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portalStone: {fileID: 0}
-  playerTransform: {fileID: 1225665915}
   secondsDelay: 2
   detectionRadius: 10
+  attackRange: 3
+  attackCooldown: 2
   originalPosition: {x: 0, y: 0, z: 0}
 --- !u!95 &962189643
 Animator:
@@ -2789,11 +2799,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7992715529498157145, guid: 0cc0db2b14252644da9f1f74ed0c8f90, type: 3}
   m_PrefabInstance: {fileID: 997197562}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &1225665915 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 411067562678095300, guid: 7a131f7863b98374d8ab4294a1ff5125, type: 3}
-  m_PrefabInstance: {fileID: 1365379464}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1241057875
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2899,7 +2904,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!114 &1250927960
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2939,6 +2944,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0f7a6733ade5414caa84c857eed500f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1250927965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250927957}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39d0939e068e91f4eb777a238e5d6455, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxArrows: 5
+--- !u!136 &1250927966
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1250927957}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1.2540872
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.74561775, z: 0}
 --- !u!1001 &1266858754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3584,6 +3625,12 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 413801501614924322, guid: 7a131f7863b98374d8ab4294a1ff5125, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1250927964}
+    - targetCorrespondingSourceObject: {fileID: 413801501614924322, guid: 7a131f7863b98374d8ab4294a1ff5125, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1250927965}
+    - targetCorrespondingSourceObject: {fileID: 413801501614924322, guid: 7a131f7863b98374d8ab4294a1ff5125, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1250927966}
     - targetCorrespondingSourceObject: {fileID: 9046618884768304271, guid: 7a131f7863b98374d8ab4294a1ff5125, type: 3}
       insertIndex: -1
       addedObject: {fileID: 485941580}
@@ -5075,7 +5122,7 @@ GameObject:
   m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &2041936850
 Transform:

@@ -28,9 +28,11 @@ public class charMovementScript : MonoBehaviour, iHealth
     private float lastDamageTime = 0f;
     public Image HealthBar;
     int maxHealth = 550;
+    private Inventory inventory;
 
     void Start()
     {
+        inventory = GetComponent<Inventory>();
         transform.position = new Vector3(1, 1, 1);
         rb = GetComponent<Rigidbody>();
         Camera.main.transform.localPosition = new Vector3(0, 1.57f, currentZoom);
@@ -73,12 +75,13 @@ public class charMovementScript : MonoBehaviour, iHealth
                 isOptionsMenuOpen = true;
             
         }
-        if (Input.GetKeyDown(KeyCode.F))
+        if (Input.GetKeyDown(KeyCode.F) && inventory.HasArrows())
         {
             GameObject newGo = Instantiate(projectileCloneTemplate, transform.position + Vector3.up + 1f * transform.forward, transform.rotation);
+            inventory.UseArrow();
         }
 
-        
+
 
     }
     private void jump()
