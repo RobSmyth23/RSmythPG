@@ -18,7 +18,7 @@ public class ArrowPickup : MonoBehaviour
 
             if (playerInventory != null)
             {
-                playerInventory.CollectArrow(1);
+                playerInventory.AddArrows(1);
                 Debug.Log("Arrow added to inventory!");
                 Destroy(gameObject);
             }
