@@ -9,7 +9,7 @@ public class TakeDamage : MonoBehaviour
     int Health;
     internal void IHitYou()
     {
-        Health -= 20;
+        Health -= 50;
     }
     // Start is called before the first frame update
     void Start()

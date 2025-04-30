@@ -12,10 +12,10 @@ public class Inventory : MonoBehaviour
         return currentArrows > 0;
     }
 
-    public void CollectArrow(int amount)
+    public void AddArrows(int amount)
     {
-        currentArrows = Mathf.Min(currentArrows + amount, maxArrows);
-        Debug.Log($"You Collected arrows! Current arrow count: {currentArrows}");
+        currentArrows += amount;
+        Debug.Log($"Arrows in inventory: {currentArrows}");
     }
 
     public void UseArrow()
@@ -29,6 +29,10 @@ public class Inventory : MonoBehaviour
         {
             Debug.Log("No arrows left!");
         }
+    }
+    public int GetArrowCount()
+    {
+        return currentArrows; // Return the current arrow count
     }
 }
 

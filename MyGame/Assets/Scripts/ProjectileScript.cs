@@ -29,13 +29,16 @@ public class ProjectileScript : MonoBehaviour
     {
         
     }
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        print("You hit me!!");
-        iHealth thingIHit = collision.gameObject.GetComponent<iHealth>();
+        Debug.Log("You hit me with a trigger!");
+
+        iHealth thingIHit = other.GetComponent<iHealth>();
         if (thingIHit != null)
         {
-            thingIHit.TakeDamage(20);
+            thingIHit.TakeDamage(50); // Apply damage
+            Debug.Log("Boss took damage!");
+            Destroy(gameObject); // Destroy the projectile after hitting
         }
     }
     internal void ImShootingYou(charMovementScript charMovementScript)

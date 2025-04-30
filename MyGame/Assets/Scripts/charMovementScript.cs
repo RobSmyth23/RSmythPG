@@ -22,6 +22,7 @@ public class charMovementScript : MonoBehaviour, iHealth
     private bool isLookingBehind = false;
     public Vector3 lookBehindOffset;
     bool isOptionsMenuOpen = false;
+    private bool isInBattle = false;
     public GameObject optionsMenu;
     public GameObject projectileCloneTemplate;
     private float damageCooldown = 1f; 
@@ -29,6 +30,7 @@ public class charMovementScript : MonoBehaviour, iHealth
     public Image HealthBar;
     int maxHealth = 550;
     private Inventory inventory;
+    public GameObject healthWarning;
 
     void Start()
     {
@@ -80,7 +82,14 @@ public class charMovementScript : MonoBehaviour, iHealth
             GameObject newGo = Instantiate(projectileCloneTemplate, transform.position + Vector3.up + 1f * transform.forward, transform.rotation);
             inventory.UseArrow();
         }
-
+        if (health <= maxHealth / 2)
+        {
+            healthWarning.SetActive(true); // Show the warning when health is half
+        }
+        else
+        {
+            healthWarning.SetActive(false); // Hide the warning otherwise
+        }
 
 
     }
@@ -212,12 +221,30 @@ public class charMovementScript : MonoBehaviour, iHealth
     {
         if (other.CompareTag("Boss"))
         {
+            isInBattle = true; // Player is in battle
             if (Time.time >= lastDamageTime + damageCooldown)
             {
-                TakeDamage(10); // Inflict damage
-                Debug.Log("Taken 10 damage");
-                lastDamageTime = Time.time; // Update the last damage time
+                TakeDamage(50); // Inflict damage
+                lastDamageTime = Time.time;
             }
+        }
+    }
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Boss"))
+        {
+            isInBattle = false; // Player is out of battle
+            StartCoroutine(RegenerateHealth());
+        }
+    }
+    IEnumerator RegenerateHealth()
+    {
+        while (!isInBattle && health < maxHealth) // Regenerate health only when out of battle
+        {
+            health += 20; // Regenerate 20 health per second
+            health = Mathf.Clamp(health, 0, maxHealth);
+            HealthBar.fillAmount = (float)health / maxHealth; // Update health bar UI
+            yield return new WaitForSeconds(1f); // Wait 1 second between increments
         }
     }
 }
